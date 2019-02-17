@@ -1,0 +1,49 @@
+body{
+    margin: 0 auto;
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url("../images/metal.jpg") no-repeat center center fixed;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+}
+#ocean {
+    background-image: url("../images/giphy.gif");
+    width: 900px;
+    height: 473px;
+}
+#score{
+position:absolute;
+border:10px solid red;
+top:20px;
+left:800px;
+background-color:white;
+padding:10px;
+font-size:30px;
+font-family: Arial;	
+}
+#text{
+    color: white
+}
+.player { 
+    position: absolute;
+    background-image: url("../images/player.png");
+    width: 60px;
+    height: 88px;
+}
+.enemy {
+    position: absolute;
+    background-image: url("../images/enemy.png");
+    width: 70px;
+    height: 70px;
+}
+.missile {
+    position: absolute;
+    background-color: fuchsia;
+    width: 2px;
+    height: 10px;
+}
+.obstacle {
+    position: absolute;
+    background-image: url("../images/stone.png");
+    width: 70px;
+    height: 48px;
+}

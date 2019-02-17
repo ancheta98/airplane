@@ -1,271 +1,30 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
 	<title>Airstrike</title>
-</head>
-<body>
-	<style type="text/css">
-		#ocean {
-			background-image: url("giphy.gif");
-			width: 900px;
-			height: 473px;
-		}
-		#score{
-		position:absolute;
-		border:10px solid red;
-		top:20px;
-		left:800px;
-		background-color:white;
-		padding:10px;
-		font-size:30px;
-		font-family: Arial;	
-		}
-		.player { 
-			position: absolute;
-			background-image: url("player.png");
-			width: 60px;
-			height: 88px;
-		}
-		.enemy {
-			position: absolute;
-			background-image: url("enemy.png");
-			width: 70px;
-			height: 70px;
-		}
-		.missile {
-			position: absolute;
-			background-color: fuchsia;
-			width: 2px;
-			height: 10px;
-		}
-		.obstacle {
-			position: absolute;
-			background-image: url("stone.png");
-			width: 70px;
-			height: 48px;
-		}
-	</style>
-
-	<div id = "ocean">
-		<div id = "players"></div>
-		<div id = "enemies"></div>
-		<div id="obstacles"></div>
-		<div id="missile"></div>
-		<div id="score">0</div>
-	</div>
-	<div id="text">
-		Hit an obstacle, new one gets created (up to 7)
-		<br>
-		Hitting enemies is worth 500 points
-		<br>
-		Getting hit by an enemy drains 50 points every 50 ms
-		<br>
-		Getting hit by an object drains 10 points every 50 ms 
-		<br>
-		Top score possible is 2000
-	</div>
+	<link rel="stylesheet" href="../css/styles.css">
+  </head>
+  <body>
+    <div id="ocean">
+      <div id="players"></div>
+      <div id="enemies"></div>
+      <div id="obstacles"></div>
+      <div id="missile"></div>
+      <div id="score">0</div>
+    </div>
+    <div id="text">
+      Hit an obstacle, new one gets created (up to 7)
+      <br />
+      Hitting enemies is worth 500 points
+      <br />
+      Getting hit by an enemy drains 50 points every 50 ms
+      <br />
+      Getting hit by an object drains 10 points every 50 ms
+      <br />
+      Top score possible is 2000
+    </div>
 
 	
-
-	<script type="text/javascript">
-	var player = {
-		left: 450,
-		top:380
-	}
-	//obstacles spawn randomly
-	var obstacles = [
-	 	{left: Math.random()*700, top: Math.random()*300},
-	 	{left: Math.random()*850, top: 100},
-		{left: Math.random()*800, top: Math.random()*100},
-		{left: Math.random()*850, top: 100},
-		{left: Math.random()*850, top:0}
-	 ]
-	 var enemies = [
-	 	{left: 700, top: 0},
-	 	{left: 200, top: 100},
-		{left: 400, top: 0},
-		{left: 500, top: 100}
-	 ]
-
-	 var missiles = [];
-
-	 var score = 0;
-
-	function drawPlayer(){
-		content = "<div class ='player' style='left:"+player.left+"px; top:"+player.top+"px'></div>";
-
-		document.getElementById("players").innerHTML = content;
-	}
-
-	function drawEnemies(){
-		content = "";
-		for(var idx = 0; idx < enemies.length; idx++){
-			content+="<div class='enemy' style='left:"+enemies[idx].left+"px; top:"+enemies[idx].top+"px'></div>";
-		}
-		document.getElementById("enemies").innerHTML = content;
-	}
-	function drawObstacles(){
-		content = "";
-		for(var idx = 0; idx < obstacles.length; idx++){
-			content+="<div class='obstacle' style='left:"+obstacles[idx].left+"px; top:"+obstacles[idx].top+"px'></div>";
-		}
-		document.getElementById("obstacles").innerHTML = content;
-	}
-
-	function drawMissiles(){
-		content= "";
-		for(var idx = 0; idx < missiles.length; idx++){
-			content+="<div class='missile' style='left:"+missiles[idx].left+"px; top:"+missiles[idx].top+"px'></div>";
-		}
-		document.getElementById("missile").innerHTML = content;
-	}
-
-	function moveEnemies(){
-		for(var idx = 0; idx < enemies.length; idx++){
-			// enemies[idx].top = enemies[idx].top +3;
-			if(enemies[idx].top < 400){
-				enemies[idx].top = enemies[idx].top +1;
-				// enemies[idx].top = 0;
-				// enemies[idx].left = Math.random()*700;
-			}
-		}
-	}
-	function moveObstacles(){
-		for(var idx = 0; idx < obstacles.length; idx++){
-			obstacles[idx].top = obstacles[idx].top +3;
-			if(obstacles[idx].top > 430){
-				obstacles[idx].top = 0;
-				obstacles[idx].left = Math.random()*700;
-			}
-		}
-	}
-	function moveMissiles(){
-		for(var idx = 0; idx < missiles.length; idx++){
-			missiles[idx].top = missiles[idx].top -25;
-			if(missiles[idx].top < 5 ){
-				missiles[idx] = missiles[missiles.length-1];
-				missiles.pop();    
-			}
-		}
-	}
-
-	document.onkeydown = function(e) {
-		if(e.keyCode === 37 && player.left > 0){ //left
-			player.left = player.left - 15;
-		}
-		if(e.keyCode === 39 && player.left < 825){ //right
-			player.left = player.left + 15;
-
-		}
-		if(e.keyCode === 38 && player.top > 250){ //up
-			player.top = player.top - 15;
-
-		}
-		if(e.keyCode === 40 & player.top < 380){ //down
-			player.top = player.top + 15;
-
-		}	
-		if(e.keyCode == 32){ //fire
-			missiles.push({left: (player.left +30), top: (player.top-8)})
-			drawMissiles();
-		}
-	drawPlayer();
-	}
-	//if enemy is hit with missile
-	function detectCollisionEnemies(){
-		for(var i=0; i < missiles.length; i++){
-			for(var x=0; x < enemies.length; x++){
-					if(Math.abs(missiles[i].left - enemies[x].left)<50 && Math.abs(missiles[i].top - enemies[x].top)<40){
-						console.log("enemy hit");
-						var temp = enemies[enemies.length-1];
-						enemies[enemies.length-1] = enemies[x];
-						enemies[enemies.length-1] = temp;
-						enemies.pop();
-						console.log(enemies);
-						score += 500;
-					}
-			}
-			// for(var b=0; b < obstacles.length; b++){
-			// 	if(Math.abs(missiles[i].left - obstacles[b].left)<40 && Math.abs(missiles[i].top - obstacles[b].top)<40){
-			// 		var temp = obstacles[obstacles.length-1];
-			// 		obstacles[obstacles.length-1] = obstacles[b];
-			// 		obstacles[obstacles.length-1] = temp;
-			// 		obstacles.pop();
-			// 		console.log("obstacle hit");
-			// 	}
-			// }
-		}
-	}
-	//if player is hit by enemy
-	function collisionPlayerEnemy(){
-		for(var x=0; x<enemies.length; x++){
-			if(Math.abs(player.left - enemies[x].left)<50 && Math.abs(player.top - enemies[x].top)<40){
-				console.log("player hit");
-				score -= 50;
-			}
-		}
-	}
-	//if player is hit with obstacle
-	function collisionPlayerObstacle(){
-		for(var x=0; x<obstacles.length; x++){
-			if(Math.abs(player.left - obstacles[x].left)<50 && Math.abs(player.top - obstacles[x].top)<40){
-				console.log("player hit by obs");
-				score -= 10;
-			}
-		}
-	}
-	//creates new obstacle when obstacle is hit up to 7
-	function createObstacle(){
-		if(obstacles.length <=7){
-			obstacles.push({left: Math.random()*700, top: 0},)	
-		}else{
-			console.log("max obstacles");
-		}
-	}
-	//if missile hits obstacle
-	function detectCollisionObstacles(){
-		for(var i=0; i < missiles.length; i++){
-			for(var b=0; b < obstacles.length; b++){
-				if(Math.abs(missiles[i].left - obstacles[b].left)<40 && Math.abs(missiles[i].top - obstacles[b].top)<40){
-	// 				var temp = obstacles[obstacles.length-1];
-	// 				obstacles[obstacles.length-1] = obstacles[b];
-	// 				obstacles[obstacles.length-1] = temp;
-	// 				obstacles.pop();
-					createObstacle();
-					console.log("obstacle hit");
-				}
-			}
-		}
-	}
-	function displayScore(){
-		document.getElementById('score').innerHTML = score;
-	}
-
-	function gameLoop(){
-
-		drawPlayer();
-
-		moveObstacles();
-		drawObstacles();
-
-		moveEnemies();
-		drawEnemies();
-
-		detectCollisionEnemies();
-		detectCollisionObstacles();
-		collisionPlayerEnemy();
-		collisionPlayerObstacle();
-		moveObstacles();
-		drawObstacles();
-		moveMissiles(); 
-		drawMissiles();
-		displayScore();
-		setTimeout(gameLoop,50);
-	}
-	gameLoop();
-	
-
-
-	</script>
-</body>
+    <script type="text/javascript" src="../logic/game.js"></script>
+  </body>
 </html>
