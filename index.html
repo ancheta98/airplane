@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-	<title>Airstrike</title>
-	<link rel="stylesheet" href="../css/styles.css">
+    <title>Airstrike</title>
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <div id="ocean">
-      <div id="players"></div>
-      <div id="enemies"></div>
-      <div id="obstacles"></div>
-      <div id="missile"></div>
-      <div id="score">0</div>
-    </div>
-    <div id="text">
-      Hit an obstacle, new one gets created (up to 7)
-      <br />
-      Hitting enemies is worth 500 points
-      <br />
-      Getting hit by an enemy drains 50 points every 50 ms
-      <br />
-      Getting hit by an object drains 10 points every 50 ms
-      <br />
-      Top score possible is 2000
+    <div id="game">
+      <div id="ocean">
+        <div id="players"></div>
+        <div id="enemies"></div>
+        <div id="obstacles"></div>
+        <div id="missile"></div>
+        <div id="score">0</div>
+      </div>
+      <div id="text">
+        <ul>
+          <li>Hit an obstacle, new one gets created (up to 7)</li>
+          <li>Hitting enemies is worth 500 points</li>
+          <li>Getting hit by an enemy drains 50 points every 50 ms</li>
+          <li>Don't let the helicopters reach the bottom of the screen!</li>
+          <li>You lose if your score is less than 0</li>
+          <li>Leaderboard coming soon...</li>
+        </ul>
+      </div>
     </div>
 
-	
-    <script type="text/javascript" src="../logic/game.js"></script>
+    <script type="text/javascript" src="./logic/game.js"></script>
   </body>
 </html>

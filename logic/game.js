@@ -215,6 +215,10 @@ function displayScore() {
 
 // runs a game function which causes all object movement and game logic
 function gameLoop() {
+  if(score < 0){
+    stopGame();
+  }
+
   drawPlayer();
 
   drawObstacles();
@@ -238,6 +242,7 @@ function gameLoop() {
   setTimeout(gameLoop, 50);
 }
 function stopGame(){
-    console.log("base infiltrated")
+    alert("base infiltrated");
+    location.reload()
 }
-gameLoop();
+ gameLoop();
